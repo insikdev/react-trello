@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/react-trello/static/js/main.aa60f672.chunk.js",
-    "main.js.map": "/react-trello/static/js/main.aa60f672.chunk.js.map",
+    "main.js": "/react-trello/static/js/main.9ff819cb.chunk.js",
+    "main.js.map": "/react-trello/static/js/main.9ff819cb.chunk.js.map",
     "runtime-main.js": "/react-trello/static/js/runtime-main.f14ec2e9.js",
     "runtime-main.js.map": "/react-trello/static/js/runtime-main.f14ec2e9.js.map",
     "static/js/2.72299829.chunk.js": "/react-trello/static/js/2.72299829.chunk.js",
@@ -13,6 +13,6 @@
   "entrypoints": [
     "static/js/runtime-main.f14ec2e9.js",
     "static/js/2.72299829.chunk.js",
-    "static/js/main.aa60f672.chunk.js"
+    "static/js/main.9ff819cb.chunk.js"
   ]
 }
