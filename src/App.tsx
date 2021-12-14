@@ -3,8 +3,9 @@ import GlobalStyle from "./styles/GlobalStyle";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import AddList from "./components/AddList";
 import { useRecoilState } from "recoil";
-import { board_item, board_order } from "./atom";
+import { board_item, board_order, saveItem, saveOrder } from "./atom";
 import Board from "./components/Board";
+import { useEffect } from "react";
 
 const Main = styled.main`
   display: grid;
@@ -53,6 +54,11 @@ function App() {
       }
     }
   };
+
+  useEffect(() => {
+    saveItem(boardItem);
+    saveOrder(boardOrder);
+  }, [boardItem, boardOrder]);
   return (
     <>
       <GlobalStyle />
