@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Draggable } from "react-beautiful-dnd";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
@@ -74,7 +74,7 @@ const Board = ({ title, index }: IProps) => {
     if (text === "") return;
 
     const new_arr = [...boardItem[title]];
-    const id = new Date().toDateString();
+    const id = Date.now().toString();
     new_arr.push({ id, text });
     setBoardItem((prev) => ({ ...prev, [title]: new_arr }));
     setValue("text", "");
@@ -89,11 +89,16 @@ const Board = ({ title, index }: IProps) => {
           {...magic.dragHandleProps}
         >
           <TitleText> {title}</TitleText>
-          <ul>
-            {boardItem[title].map((data: IBoardItem, index) => (
-              <Card key={index} data={data} />
-            ))}
-          </ul>
+          <Droppable direction="vertical" droppableId={title} type="card">
+            {(p) => (
+              <ul ref={p.innerRef} {...p.droppableProps}>
+                {boardItem[title].map((data: IBoardItem, index) => (
+                  <Card key={index} data={data} index={index} />
+                ))}
+                {p.placeholder}
+              </ul>
+            )}
+          </Droppable>
           {isOpen ? (
             <Form onSubmit={onSubmit}>
               <TextArea

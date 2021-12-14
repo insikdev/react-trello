@@ -1,13 +1,14 @@
 import React from "react";
+import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { IBoardItem } from "../atom";
 
 interface IProps {
-  key: number;
+  index: number;
   data: IBoardItem;
 }
 
-const List = styled.li`
+const List = styled.li<{ isDragging: boolean }>`
   width: 100%;
   background-color: white;
   margin-bottom: 12px;
@@ -16,12 +17,22 @@ const List = styled.li`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   font-size: 14px;
+  background-color: ${(props) => (props.isDragging ? "black" : "transparent")};
 `;
 
-const Card = ({ data }: IProps) => (
-  <List>
-    <span>{data.text}</span>
-  </List>
+const Card = ({ data, index }: IProps) => (
+  <Draggable draggableId={data.id} index={index} key={data.id}>
+    {(p, s) => (
+      <List
+        ref={p.innerRef}
+        {...p.dragHandleProps}
+        {...p.draggableProps}
+        isDragging={s.isDragging}
+      >
+        <span>{data.text}</span>
+      </List>
+    )}
+  </Draggable>
 );
 
 export default React.memo(Card);
