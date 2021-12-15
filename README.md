@@ -1,14 +1,24 @@
-# Trello
+# Trello Clone
 
 ## Overview
 
-- board 생성
-- board에서 item 생성
-- item drag and drop
-- local storage에 저장 / 예정
-- item 삭제 / 예정
+- [링크](https://zzicc12.github.io/react-trello/)
+- trello의 board, card drag & drop 기능을 구현
 
-##
+## Features
+
+- board, card 생성 및 삭제
+- drag & drop 통한 board, card 이동 및 삭제
+- recoil을 사용하여 state 관리
+- localStorage에 정보를 저장, 불러옴
+
+## Dependencies
+
+- `create-react-app-typescript`
+- `react-beautiful-dnd`
+- `react-hook-form`
+- `recoil`
+- `styled-components`
 
 ## Drag & Drop
 
@@ -25,6 +35,11 @@
 
 - draggableId : unique string
 - index : number / key와 중복 X
-- innerRef
+- innerRef, draggableProps, dragHandleProps 추가
 - draggableProps : drag로 움직이는 element
 - dragHandleProps : drag를 할 수 있는 element
+
+## 문제
+
+- type을 하나씩만 지정 가능 -> 삭제 버튼을 만들기 힘듬
+- object의 key의 순서 -> Object.entries => reduce로 다시 object로 반환

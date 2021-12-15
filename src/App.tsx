@@ -22,7 +22,7 @@ const TrashBox = styled.section`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1;
+  transition: all 0.2s ease-in;
   &:hover {
     transform: scale(1.3);
     svg {
