@@ -17,6 +17,7 @@ const GlobalStyle = styled.createGlobalStyle`
   #root {
     overflow-x: auto;
     height: 100vh;
+    padding: 20px;
   }
 `;
 

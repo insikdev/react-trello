@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
@@ -77,6 +77,15 @@ const Ul = styled.ul<{ isDraggingOver: boolean }>`
   }
 `;
 
+const CancleBtn = styled.button`
+  border: none;
+  font-size: 18px;
+  margin-left: 6px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const Board = ({ title, index }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, setValue } = useForm<IForm>();
@@ -91,6 +100,15 @@ const Board = ({ title, index }: IProps) => {
     setBoard((prev) => ({ ...prev, [title]: new_arr }));
     setValue("text", "");
   });
+
+  const MouseDown = ({ target: { nodeName, id } }: any) => {
+    if (id === "root" || nodeName === "H2") setIsOpen(false);
+  };
+
+  useEffect(() => {
+    document.body.addEventListener("mousedown", (e) => MouseDown(e));
+    return document.body.removeEventListener("mousedown", MouseDown);
+  }, []);
 
   return (
     <Draggable draggableId={title} index={index} key={title}>
@@ -117,7 +135,12 @@ const Board = ({ title, index }: IProps) => {
                 placeholder="Enter a title for this card..."
                 {...register("text")}
               />
-              <Button text="Add card" />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Button text="Add card" />
+                <CancleBtn type="button" onClick={() => setIsOpen(false)}>
+                  ✖
+                </CancleBtn>
+              </div>
             </Form>
           ) : (
             <Btn onClick={() => setIsOpen(true)}>+ Add a card</Btn>

@@ -6,43 +6,57 @@ import { useRecoilState } from "recoil";
 import { recoil_board, saveBoard } from "./atom";
 import Board from "./components/Board";
 import { useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Main = styled.main`
   width: min-content;
   display: flex;
   justify-content: flex-start;
-  margin-top: 20px;
+  margin-top: 50px;
 `;
 
 const Trash = styled.div`
-  background-color: #ff20fa;
-  width: 500px;
-  height: 500px;
+  position: absolute;
+  top: 0;
+
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 function App() {
   const [board, setBoard] = useRecoilState(recoil_board);
 
   const onDragEnd = (data: DropResult) => {
-    console.log(data);
     const { source, destination, type } = data;
 
     if (!destination || !source) return;
+
+    if (destination.droppableId === "trash") {
+      if (type === "card")
+        setBoard((prev) => {
+          const new_item = [...board[source.droppableId]];
+          new_item.splice(source.index, 1);
+          return { ...prev, [source.droppableId]: new_item };
+        });
+      return;
+    }
+
     if (type === "board") {
       setBoard((prev) => {
         const new_board = Object.entries(prev);
         const [temp] = new_board.splice(source.index, 1);
         new_board.splice(destination.index, 0, temp);
-
-        const new_state = new_board.reduce(
+        return new_board.reduce(
           (acc, [key, value]) => ({
             ...acc,
             [key]: value,
           }),
           {}
         );
-        console.log(new_state);
-        return new_state;
       });
     } else if (type === "card") {
       if (source.droppableId === destination.droppableId) {
@@ -84,14 +98,15 @@ function App() {
           )}
         </Droppable>
 
-        <Droppable droppableId="trash" direction="vertical">
-          {(magic) => (
-            <>
-              <Trash ref={magic.innerRef} {...magic.droppableProps}>
-                delete
-              </Trash>
-              {magic.placeholder}
-            </>
+        <Droppable droppableId="trash" direction="vertical" type="card">
+          {(p, s) => (
+            <Trash ref={p.innerRef} {...p.droppableProps}>
+              <FontAwesomeIcon
+                icon={faTrash}
+                size={s.isDraggingOver ? "4x" : "2x"}
+                color={s.isDraggingOver ? "red" : "white"}
+              />
+            </Trash>
           )}
         </Droppable>
       </DragDropContext>
