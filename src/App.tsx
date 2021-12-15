@@ -16,15 +16,24 @@ const Main = styled.main`
   margin-top: 50px;
 `;
 
-const Trash = styled.div`
-  position: absolute;
-  top: 0;
-
-  width: 100px;
-  height: 100px;
+const TrashBox = styled.section`
   display: flex;
   align-items: center;
-  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  &:hover {
+    transform: scale(1.3);
+    svg {
+      color: red;
+    }
+  }
+`;
+
+const Trash = styled.div`
+  width: 50px;
+  height: 100px;
 `;
 
 function App() {
@@ -35,13 +44,19 @@ function App() {
 
     if (!destination || !source) return;
 
-    if (destination.droppableId === "trash") {
-      if (type === "card")
-        setBoard((prev) => {
-          const new_item = [...board[source.droppableId]];
-          new_item.splice(source.index, 1);
-          return { ...prev, [source.droppableId]: new_item };
-        });
+    if (destination.droppableId === "trash-card") {
+      setBoard((prev) => {
+        const new_item = [...board[source.droppableId]];
+        new_item.splice(source.index, 1);
+        return { ...prev, [source.droppableId]: new_item };
+      });
+      return;
+    } else if (destination.droppableId === "trash-board") {
+      setBoard((prev) => {
+        const new_board = { ...prev };
+        delete new_board[data.draggableId];
+        return new_board;
+      });
       return;
     }
 
@@ -97,18 +112,25 @@ function App() {
             </Main>
           )}
         </Droppable>
+        <TrashBox>
+          <Droppable droppableId="trash-card" type="card">
+            {(p) => (
+              <Trash ref={p.innerRef} {...p.droppableProps}>
+                {p.placeholder}
+              </Trash>
+            )}
+          </Droppable>
 
-        <Droppable droppableId="trash" direction="vertical" type="card">
-          {(p, s) => (
-            <Trash ref={p.innerRef} {...p.droppableProps}>
-              <FontAwesomeIcon
-                icon={faTrash}
-                size={s.isDraggingOver ? "4x" : "2x"}
-                color={s.isDraggingOver ? "red" : "white"}
-              />
-            </Trash>
-          )}
-        </Droppable>
+          <FontAwesomeIcon icon={faTrash} size={"2x"} color={"white"} />
+
+          <Droppable droppableId="trash-board" type="board">
+            {(p) => (
+              <Trash ref={p.innerRef} {...p.droppableProps}>
+                {p.placeholder}
+              </Trash>
+            )}
+          </Droppable>
+        </TrashBox>
       </DragDropContext>
     </>
   );

@@ -107,7 +107,7 @@ const Board = ({ title, index }: IProps) => {
 
   useEffect(() => {
     document.body.addEventListener("mousedown", (e) => MouseDown(e));
-    return document.body.removeEventListener("mousedown", MouseDown);
+    return () => document.body.removeEventListener("mousedown", MouseDown);
   }, []);
 
   return (
