@@ -14,6 +14,10 @@ const GlobalStyle = styled.createGlobalStyle`
   body {
     background-image: url(${background});
   }
+  #root {
+    overflow-x: auto;
+    height: 100vh;
+  }
 `;
 
 export default GlobalStyle;

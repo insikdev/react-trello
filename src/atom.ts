@@ -1,20 +1,11 @@
 import { atom } from "recoil";
 
-export const saveItem = (item: IBoard) =>
-  localStorage.setItem("ITEM", JSON.stringify(item));
+export const saveBoard = (item: IBoard) =>
+  localStorage.setItem("BOARD", JSON.stringify(item));
 
-export const LoadItem = (): IBoard | null => {
-  const item = localStorage.getItem("ITEM");
-  if (item) return JSON.parse(item);
-  return null;
-};
-
-export const saveOrder = (order: string[]) =>
-  localStorage.setItem("ORDER", JSON.stringify(order));
-
-export const loadOrder = () => {
-  const order = localStorage.getItem("ORDER");
-  if (order) return JSON.parse(order);
+export const loadBoard = (): IBoard | null => {
+  const board = localStorage.getItem("BOARD");
+  if (board) return JSON.parse(board);
   return null;
 };
 
@@ -27,12 +18,7 @@ interface IBoard {
   [key: string]: IBoardItem[];
 }
 
-export const board_item = atom<IBoard>({
-  key: "boardList",
-  default: LoadItem() ?? {},
-});
-
-export const board_order = atom<string[]>({
-  key: "order",
-  default: loadOrder() ?? [],
+export const recoil_board = atom<IBoard>({
+  key: "board",
+  default: loadBoard() ?? {},
 });

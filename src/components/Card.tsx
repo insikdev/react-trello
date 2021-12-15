@@ -8,7 +8,7 @@ interface IProps {
   data: IBoardItem;
 }
 
-const List = styled.li`
+const List = styled.div`
   width: 100%;
   background-color: #ffffff;
   margin-bottom: 12px;
@@ -20,13 +20,15 @@ const List = styled.li`
 `;
 
 const Card = ({ data, index }: IProps) => (
-  <Draggable draggableId={data.id} index={index} key={data.id}>
-    {(p, s) => (
-      <List ref={p.innerRef} {...p.dragHandleProps} {...p.draggableProps}>
-        <span>{data.text}</span>
-      </List>
-    )}
-  </Draggable>
+  <li>
+    <Draggable draggableId={data.id} index={index} key={data.id}>
+      {(p) => (
+        <List ref={p.innerRef} {...p.dragHandleProps} {...p.draggableProps}>
+          <span>{data.text}</span>
+        </List>
+      )}
+    </Draggable>
+  </li>
 );
 
 export default React.memo(Card);
