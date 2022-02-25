@@ -2,7 +2,7 @@
 
 ## Overview
 
-- [링크](https://zzicc12.github.io/react-trello/)
+- [링크](https://insikdev.github.io/react-trello/)
 - trello의 board, card drag & drop 기능을 구현
 
 ## Features
